@@ -16,7 +16,7 @@ class SectionsController extends Controller
     public function index()
     {
         $sections = sections::all();
-        return view('sections.sections',compact('sections'));
+        return view('sections.sections', compact('sections'));
     }
 
     /**
@@ -32,17 +32,17 @@ class SectionsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'section_name' => 'required|unique:sections|max:255',
-        ],[
+        ], [
 
-            'section_name.required' =>'يرجي ادخال اسم القسم',
-            'section_name.unique' =>'اسم القسم مسجل مسبقا',
+            'section_name.required' => 'يرجي ادخال اسم القسم',
+            'section_name.unique' => 'اسم القسم مسجل مسبقا',
 
 
         ]);
@@ -60,7 +60,7 @@ class SectionsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\sections  $sections
+     * @param \App\Models\sections $sections
      * @return \Illuminate\Http\Response
      */
     public function show(sections $sections)
@@ -71,19 +71,39 @@ class SectionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\sections  $sections
+     * @param \App\Models\sections $sections
      * @return \Illuminate\Http\Response
      */
-    public function edit(sections $sections)
+    public function edit(Request $request)
     {
-        //
+        // return $request;
+        $id = $request->id;
+        $this->validate($request, [
+            'section_name' => 'required|max:255|unique:sections,section_name,' . $id,
+            'description' => 'required',
+        ], [
+
+            'section_name.required' => 'يرجي ادخال اسم القسم',
+            'section_name.unique' => 'اسم القسم مسجل مسبقا',
+            'description.required' => 'يرجي ادخال البيانات',
+
+        ]);
+
+        $sections = sections::find($id);
+        $sections->update([
+            'section_name' => $request->section_name,
+            'description' => $request->description,
+        ]);
+
+        session()->flash('edit', 'تم تعديل القسم بنجاج');
+        return redirect('/sections');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\sections  $sections
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\sections $sections
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, sections $sections)
@@ -94,11 +114,14 @@ class SectionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\sections  $sections
+     * @param \App\Models\sections $sections
      * @return \Illuminate\Http\Response
      */
-    public function destroy(sections $sections)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        sections::find($id)->delete();
+        session()->flash('delete', 'تم حذف القسم بنجاح');
+        return redirect('/sections');
     }
 }

@@ -21,6 +21,19 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/invoices', [App\Http\Controllers\InvoicesController::class, 'index'])->name('invoices');
-Route::get('/sections', [App\Http\Controllers\SectionsController::class, 'index'])->name('sections');
+Route::group(["namespace" => "sections", "prefix" => "sections"], function () {
+    Route::get('/', [App\Http\Controllers\SectionsController::class, 'index'])->name('sections');
+    Route::post('/update', [App\Http\Controllers\SectionsController::class, 'edit'])->name('sections.update');
+    Route::post('/store', [App\Http\Controllers\SectionsController::class, 'store'])->name('sections.store');
+    Route::post('/destroy', [App\Http\Controllers\SectionsController::class, 'destroy'])->name('sections.destroy');
+});
+Route::group(["namespace" => "products", "prefix" => "products"], function () {
+    Route::get('/', [App\Http\Controllers\ProductsController::class, 'index'])->name('products');
+    Route::post('/update', [App\Http\Controllers\ProductsController::class, 'edit'])->name('products.update');
+    Route::post('/store', [App\Http\Controllers\ProductsController::class, 'store'])->name('products.store');
+    Route::post('/destroy', [App\Http\Controllers\ProductsController::class, 'destroy'])->name('products.destroy');
+});
+
+
 Route::get('/{page}', "App\Http\Controllers\AdminController@index",);
-Route::resource('sections', "App\Http\Controllers\SectionsController");
+//Route::resource('sections', "App\Http\Controllers\SectionsController");
