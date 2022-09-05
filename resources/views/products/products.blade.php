@@ -97,12 +97,12 @@
                                 <?php $i++; ?>
                                 <tr>
                                     <td>{{ $i }}</td>
-                                    <td>{{ $Product->Product_name }}</td>
+                                    <td>{{ $Product->product_name }}</td>
                                     <td>{{ $Product->section->section_name }}</td>
                                     <td>{{ $Product->description }}</td>
                                     <td>
                                         <button class="btn btn-outline-success btn-sm"
-                                                data-name="{{ $Product->Product_name }}" data-pro_id="{{ $Product->id }}"
+                                                data-name="{{ $Product->product_name }}" data-pro_id="{{ $Product->id }}"
                                                 data-section_name="{{ $Product->section->section_name }}"
                                                 data-description="{{ $Product->description }}" data-toggle="modal"
                                                 data-target="#edit_Product">تعديل</button>

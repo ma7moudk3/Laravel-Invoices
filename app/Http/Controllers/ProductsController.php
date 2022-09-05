@@ -24,7 +24,7 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         Products::create([
-            'Product_name' => $request->Product_name,
+            'product_name' => $request->Product_name,
             'section_id' => $request->section_id,
             'description' => $request->description,
         ]);
