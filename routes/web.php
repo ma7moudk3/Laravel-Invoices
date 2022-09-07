@@ -40,7 +40,11 @@ Route::group(["namespace" => "products", "prefix" => "products"], function () {
 Route::group(["namespace" => "invoices", "prefix" => "invoices"], function () {
     Route::get('/', [App\Http\Controllers\InvoicesController::class, 'index'])->name('invoices');
     Route::get('/create', [App\Http\Controllers\InvoicesController::class, 'create'])->name('invoices.create');
-    Route::get('/store', [App\Http\Controllers\InvoicesController::class, 'store'])->name('invoices.store');
+    Route::post('/store', [App\Http\Controllers\InvoicesController::class, 'store'])->name('invoices.store');
+    Route::get('/details/{id}', [App\Http\Controllers\InvoicesController::class, 'showDetails'])->name('invoices.details');
+    Route::get('/viewFile/{invoice_number}/{image_name}', [App\Http\Controllers\InvoicesDetailsController::class, 'showFile'])->name('invoices.showFile');
+    Route::get('/downloadFile/{invoice_number}/{image_name}', [App\Http\Controllers\InvoicesDetailsController::class, 'downloadFile'])->name('invoices.showFile');
+    Route::post('/deleteFile', [App\Http\Controllers\InvoicesDetailsController::class, 'destroy'])->name('invoices.delete.file');
 
 });
 

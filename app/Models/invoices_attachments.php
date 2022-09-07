@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class invoices_attachments extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'file_name',
+        'id',
+        'invoice_number',
+        'Created_by',
+        'invoice_id',
+        'created_at',
+        'updated_at',
+    ];
 }

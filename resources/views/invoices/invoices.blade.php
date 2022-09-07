@@ -34,7 +34,8 @@
                     <div class="card-header pb-0">
                         <div class="d-flex justify-content-between">
                             <h4 class="card-title mg-b-0">قائمة الفواتير</h4>
-                            <a href="{{route("invoices.create")}}" class="modal-effect btn btn-sm btn-primary" style="color:white"><i
+                            <a href="{{route("invoices.create")}}" class="modal-effect btn btn-sm btn-primary"
+                               style="color:white"><i
                                     class="fas fa-plus"></i>&nbsp; اضافة فاتورة</a></div>
 
                     </div>
@@ -59,27 +60,90 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    @for($i = 0; $i < 13; $i++)
-                                        <td>Tiger Nixon</td>
-                                    @endfor
-                                </tr>
+                                <?php $i = 0 ?>
+                                @foreach($invoices  as $invoice)
+                                    <?php                                     $i++
+                                    ?>
 
-                                <tr>
-                                    @for($i = 0; $i < 13; $i++)
-                                        <td>Tiger Nixon</td>
-                                    @endfor
-                                </tr>
-                                <tr>
-                                    @for($i = 0; $i < 13; $i++)
-                                        <td>Tiger Nixon</td>
-                                    @endfor
-                                </tr>
-                                <tr>
-                                    @for($i = 0; $i < 13; $i++)
-                                        <td>Tiger Nixon</td>
-                                    @endfor
-                                </tr>
+                                    <tr>
+                                        <td>{{$i}}</td>
+                                        <td>
+                                            <a href="{{url("invoices/details/".$invoice->id)}}"> {{$invoice->invoice_number}} </a>
+                                        </td>
+                                        <td>{{$invoice->invoice_Date}}</td>
+                                        <td>{{$invoice->Due_date}}</td>
+                                        <td>{{$invoice->product}}</td>
+                                        <td>{{$invoice->section->section_name}}</td>
+                                        <td>{{$invoice->Discount}}</td>
+                                        <td>{{$invoice->Rate_VAT}}</td>
+                                        <td>{{ $invoice->Value_VAT }}</td>
+                                        <td>{{ $invoice->Total }}</td>
+                                        <td>
+                                            @if ($invoice->Value_Status == 1)
+                                                <span class="text-success">{{ $invoice->Status }}</span>
+                                            @elseif($invoice->Value_Status == 2)
+                                                <span class="text-danger">{{ $invoice->Status }}</span>
+                                            @else
+                                                <span class="text-warning">{{ $invoice->Status }}</span>
+                                            @endif
+
+                                        </td>
+
+                                        <td>{{ $invoice->note }}</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button aria-expanded="false" aria-haspopup="true"
+                                                        class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
+                                                        type="button">العمليات<i class="fas fa-caret-down ml-1"></i>
+                                                </button>
+                                                <div class="dropdown-menu tx-13">
+                                                    @can('تعديل الفاتورة')
+                                                        <a class="dropdown-item"
+                                                           href=" {{ url('edit_invoice') }}/{{ $invoice->id }}">تعديل
+                                                            الفاتورة</a>
+                                                    @endcan
+
+                                                    @can('حذف الفاتورة')
+                                                        <a class="dropdown-item" href="#"
+                                                           data-invoice_id="{{ $invoice->id }}"
+                                                           data-toggle="modal" data-target="#delete_invoice"><i
+                                                                class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف
+                                                            الفاتورة</a>
+                                                    @endcan
+
+                                                    @can('تغير حالة الدفع')
+                                                        <a class="dropdown-item"
+                                                           href="{{ URL::route('Status_show', [$invoice->id]) }}"><i
+                                                                class=" text-success fas
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    fa-money-bill"></i>&nbsp;&nbsp;تغير
+                                                            حالة
+                                                            الدفع</a>
+                                                    @endcan
+
+                                                    @can('ارشفة الفاتورة')
+                                                        <a class="dropdown-item" href="#"
+                                                           data-invoice_id="{{ $invoice->id }}"
+                                                           data-toggle="modal" data-target="#Transfer_invoice"><i
+                                                                class="text-warning fas fa-exchange-alt"></i>&nbsp;&nbsp;نقل
+                                                            الي
+                                                            الارشيف</a>
+                                                    @endcan
+
+                                                    @can('طباعةالفاتورة')
+                                                        <a class="dropdown-item"
+                                                           href="Print_invoice/{{ $invoice->id }}"><i
+                                                                class="text-success fas fa-print"></i>&nbsp;&nbsp;طباعة
+                                                            الفاتورة
+                                                        </a>
+                                                    @endcan
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+
                                 </tbody>
                             </table>
                         </div>
