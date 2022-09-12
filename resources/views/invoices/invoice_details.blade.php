@@ -201,9 +201,30 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="tab13">
+                                        <div class="card-body">
+                                            <p class="text-danger">* صيغة المرفق pdf, jpeg ,.jpg , png </p>
+                                            <h5 class="card-title">اضافة مرفقات</h5>
+                                            <form method="post" action="{{ url('invoices/attachments') }}"
+                                                  enctype="multipart/form-data">
+                                                {{ csrf_field() }}
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="customFile"
+                                                           name="file_name" required>
+                                                    <input type="hidden" id="customFile" name="invoice_number"
+                                                           value="{{ $invoices->invoice_number }}">
+                                                    <input type="hidden" id="invoice_id" name="invoice_id"
+                                                           value="{{ $invoices->id }}">
+                                                    <label class="custom-file-label" for="customFile">حدد
+                                                        المرفق</label>
+                                                </div><br><br>
+                                                <button type="submit" class="btn btn-primary btn-sm "
+                                                        name="uploadedFile">تاكيد</button>
+                                            </form>
+                                        </div>
                                         <table class="table center-aligned-table mb-0 table table-hover"
                                                style="text-align:center">
                                             <thead>
+
                                             <tr class="text-dark">
                                                 <th scope="col">م</th>
                                                 <th scope="col">اسم الملف</th>
